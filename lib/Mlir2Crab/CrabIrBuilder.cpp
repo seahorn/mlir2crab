@@ -117,7 +117,7 @@ void CrabIrBuilderImpl::generate() {
   }
   m_cg = std::make_unique<callgraph_t>(cfgs);
 
-  INFO << "finished translation to CrabIR.\n";   
+  //INFO << "finished translation to CrabIR.\n";   
 }
 
 const callgraph_t& CrabIrBuilderImpl::getCallGraph() const {
