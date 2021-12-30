@@ -124,21 +124,34 @@ void CrabIrAnalyzerImpl::write(llvm::raw_ostream &os) const {
   if (!m_crabAnalyzer) {
     WARN << "Call analyze() before write invariants";
   } else {
-    m_crabIR.getOpts().write(os);
-    os << "\n";
-    getOpts().write(os);
-    os << "\n";
-    
-    os << "=== Verification results === \n";
-    {
+    auto &cg = m_crabIR.getCallGraph();
+
+    os << "=== CrabIR ===\n";
+    {      
       ::crab::crab_string_os crab_os;
-      m_checks.write(crab_os);
+      for (auto n : boost::make_iterator_range(cg.nodes())) {
+	n.get_cfg().get().write(crab_os);
+      } 
       os << crab_os.str() << "\n";
     }
+    
+    //m_crabIR.getOpts().write(os);
+    //os << "\n";
+    getOpts().write(os);
+    os << "\n";
+
+    if ((m_checks.get_total_safe() +
+	 m_checks.get_total_warning() +
+	 m_checks.get_total_error()) > 0) {      
+      os << "=== Verification results === \n";
+      ::crab::crab_string_os crab_os;
+      m_checks.write(crab_os);
+      os << crab_os.str() << "\n";      
+    }
+    
     os << "=== Invariants that hold at the entry of each MLIR block === \n";
     {
-      ::crab::crab_string_os crab_os;      
-      auto &cg = m_crabIR.getCallGraph();
+      ::crab::crab_string_os crab_os;           
       for (auto n : boost::make_iterator_range(cg.nodes())) {
 	cfg_ref_t cfg_ref = n.get_cfg();
 	// traverse cfg in dfs to print deterministically

@@ -104,7 +104,7 @@ void CrabIrBuilderImpl::generate() {
   for (mlir::Operation &op: body->getOperations()) {
     translateFunction(op);
   }    
-#if 1
+#if 0
   for (auto &kv: m_cfgs) {
     ::crab::outs() << *(kv.second) << "\n";
   }

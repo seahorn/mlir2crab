@@ -2,7 +2,7 @@
 
 namespace mlir2crab {
 void CrabIrAnalyzerOpts::write(llvm::raw_ostream &o) const {
-  o << "== Crab analyzer options == \n";
+  o << "=== Crab analyzer options === \n";
   o << "Abstract domain: ";
   switch(domain) {
   case Domain::Intervals:
