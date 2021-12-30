@@ -58,6 +58,6 @@ $ <INSTALL_DIR>/bin/mlir2crab test.mlir
 
 
 ## Contributors
-Arie Gurfinkel <arie.gurfinkel@uwaterloo.ca> 
-Joseph Tafese <jetafese@uwaterloo.ca> 
-Jorge Navas <navasjorgea@gmail.com>
+* Arie Gurfinkel <arie.gurfinkel@uwaterloo.ca> 
+* Joseph Tafese <jetafese@uwaterloo.ca> 
+* Jorge Navas <navasjorgea@gmail.com>
