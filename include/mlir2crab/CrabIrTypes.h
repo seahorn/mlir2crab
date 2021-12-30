@@ -78,6 +78,21 @@ public:
       return false;
     }    
   }
+
+  bool is_edge() const {
+    return !m_bb;
+  }
+
+  // it returns null if is_edge() returns true
+  const mlir::Block* get_block() const {
+    return m_bb;
+  }
+
+  // it returns a pair of null pointers if is_edge() returns false
+  std::pair<const mlir::Block*, const mlir::Block*> get_edge() const {
+    return m_edge;
+  }
+  
   std::size_t hash() const {
     if (m_bb) {
       return std::hash<const mlir::Block*>{}(m_bb);
