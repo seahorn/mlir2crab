@@ -24,6 +24,6 @@ using namespace mlir::crab;
 void CrabDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
-#include "Dialect/Crab/IR/CrabOps.cpp.inc"
+#include "mlir2crab/Dialect/Crab/IR/CrabOps.cpp.inc"
       >();
 }

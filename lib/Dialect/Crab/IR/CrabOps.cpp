@@ -82,4 +82,4 @@ LogicalResult CallOp::verifySymbolUses(SymbolTableCollection &symbolTable) {
 }
 
 #define GET_OP_CLASSES
-#include "Dialect/Crab/IR/CrabOps.cpp.inc"
+#include "mlir2crab/Dialect/Crab/IR/CrabOps.cpp.inc"
