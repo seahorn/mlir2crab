@@ -62,6 +62,7 @@ $ mlir2crab tests/p1.mlir
 ```
 
 ```
+=== CrabIR ===
 void declare main()
 ^bb0:
   %0 = 0;
