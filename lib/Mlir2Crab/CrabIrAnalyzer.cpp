@@ -15,6 +15,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 #include <map>
+#include <unordered_set>
 
 namespace mlir2crab {
 
@@ -127,12 +128,44 @@ void CrabIrAnalyzerImpl::write(llvm::raw_ostream &os) const {
     os << "\n";
     getOpts().write(os);
     os << "\n";
+    
     os << "=== Verification results === \n";
-    ::crab::crab_string_os crab_os;
-    m_checks.write(crab_os);
-    os << crab_os.str() << "\n";
-    os << "=== Invariants === \n";
-    os << "TODO\n";
+    {
+      ::crab::crab_string_os crab_os;
+      m_checks.write(crab_os);
+      os << crab_os.str() << "\n";
+    }
+    os << "=== Invariants that hold at the entry of each MLIR block === \n";
+    {
+      ::crab::crab_string_os crab_os;      
+      auto &cg = m_crabIR.getCallGraph();
+      for (auto n : boost::make_iterator_range(cg.nodes())) {
+	cfg_ref_t cfg_ref = n.get_cfg();
+	// traverse cfg in dfs to print deterministically
+	auto entry = cfg_ref.entry();
+	std::vector<block_label_t> stack;
+	std::unordered_set<block_label_t> visited;
+	stack.push_back(entry);
+	visited.insert(entry);
+	while (!stack.empty()) {
+	  auto curr = stack.back();
+	  stack.pop_back();
+
+	  if (!curr.is_edge()) {
+	    crab_os << curr << ": ";
+	    auto invariants = m_crabAnalyzer->get_pre(cfg_ref.get(), curr);
+	    crab_os << invariants << "\n";	      	    
+	  }
+	  
+	  for (auto succ: cfg_ref.next_nodes(curr)) {
+	    if (visited.insert(succ).second) {
+	      stack.push_back(succ);
+	    }
+	  }	    
+	} // end !stack.empty()
+      }
+      os << crab_os.str();
+    }
   }
 }
 
