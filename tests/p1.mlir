@@ -20,8 +20,10 @@ module  {
   ^bb3(%11: i32, %12: i32):  // pred: ^bb1
     %13 = crab.const 10 : i32
     crab.assume sge(%11, %13) : i32
-    crab.assert eq(%11, %12) : i32
-    %14 = crab.const 0 : i32
-    crab.return %14 : i32
+    crab.br ^bb4(%11, %12 : i32, i32)
+  ^bb4(%14: i32, %15: i32):  // pred: ^bb3
+    crab.assert eq(%14, %15) : i32
+    %16 = crab.const 0 : i32
+    crab.return %16 : i32
   }
 }
