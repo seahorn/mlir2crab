@@ -4,7 +4,8 @@
 #  - BASE-IMAGE: bionic-llvm10, focal-llvm10
 #  - BUILD_TYPE: Debug, RelWithDebInfo, Coverage
 ARG BASE_IMAGE=bionic-llvm10
-FROM agurfinkel/buildback-deps-btor2mlir
+##FROM agurfinkel/buildback-deps-btor2mlir
+FROM seahorn/buildpack-deps-seahorn:$BASE_IMAGE
 
 # Download mlir2crab
 RUN cd / && rm -rf /opt/mlir2crab && cd /opt && \
